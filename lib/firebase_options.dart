@@ -17,17 +17,17 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     // ignore: missing_enum_constant_in_switch
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        return ios;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for ios - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.macOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for macos - '
@@ -40,21 +40,20 @@ class DefaultFirebaseOptions {
     );
   }
 
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyDXWWcrD8hzA08ecZJh3Y-sa5UZc5tSYec',
+    appId: '1:374256029252:web:c9e9617198fbe0675e7611',
+    messagingSenderId: '374256029252',
+    projectId: 'guardian-app-dev',
+    authDomain: 'guardian-app-dev.firebaseapp.com',
+    storageBucket: 'guardian-app-dev.appspot.com',
+  );
+
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCSEbw64-hz0V3RrMYSY2tXG2BCUCw_5p4',
     appId: '1:374256029252:android:d199221591d07eb85e7611',
     messagingSenderId: '374256029252',
     projectId: 'guardian-app-dev',
     storageBucket: 'guardian-app-dev.appspot.com',
-  );
-
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDvJyxd2Ao-DCYTb7imy7bUgP30SL0qXuA',
-    appId: '1:374256029252:ios:ed065bb3118109365e7611',
-    messagingSenderId: '374256029252',
-    projectId: 'guardian-app-dev',
-    storageBucket: 'guardian-app-dev.appspot.com',
-    iosClientId: '374256029252-icd3l6377cgbi8ri6fsdmjfck6jte3rm.apps.googleusercontent.com',
-    iosBundleId: 'com.milewski.guardian',
   );
 }

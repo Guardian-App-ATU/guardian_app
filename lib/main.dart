@@ -3,9 +3,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:guardian_app_flutter/pages/login.dart';
+import 'package:guardian_app_flutter/pages/main_page.dart';
 import 'package:guardian_app_flutter/pages/profile.dart';
 import 'package:guardian_app_flutter/services/AuthenticationService.dart';
 import 'package:provider/provider.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 
 import 'firebase_options.dart';
 
@@ -34,7 +36,7 @@ class MyApp extends StatelessWidget {
       ],
       child: GetMaterialApp(
         title: "Guardian",
-        theme: ThemeData(primarySwatch: Colors.blue),
+        theme: ThemeData(primarySwatch: Colors.purple),
         home: const AuthenticationWrapper(),
       ),
     );
@@ -58,14 +60,14 @@ class _GuardianAppPageState extends State<GuardianAppPage> {
   }
 
   List<Widget> Widgets = const [
-    ProfilePage(),
+    MainPage(),
     ProfilePage()
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(child: Widgets.elementAt(_selectedIndex)),
+      body: Widgets.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
         onTap: _changeIndex,
         currentIndex: _selectedIndex,
