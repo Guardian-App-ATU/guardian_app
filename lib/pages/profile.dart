@@ -18,8 +18,8 @@ class ProfilePage extends StatelessWidget {
 
     final providers = user?.providerData ?? [];
 
-    return SafeArea(
-      child: Padding(
+    return Scaffold(
+      body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Wrap(
           runSpacing: 10,
