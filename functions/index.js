@@ -110,11 +110,11 @@ exports.closeSession = functions.https.onCall(async (data, context) => {
         throw new HttpsError("not-found", "Couldn't find the requested session")
     }
 
-    if(requestedDocument.get("userId") != context.auth.uid){
+    if(requestedDocument.get("userId") !== context.auth.uid){
         throw new HttpsError("permission-denied", "You can not close session that you're not an owner of!")
     }
 
-    if(requestedDocument.get("closed") == true){
+    if(requestedDocument.get("closed") === true){
         throw new HttpsError("failed-precondition", "This session is already closed")
     }
 
