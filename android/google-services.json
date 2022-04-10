@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "374256029252",
+    "project_id": "guardian-app-dev",
+    "storage_bucket": "guardian-app-dev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:374256029252:android:d199221591d07eb85e7611",
+        "android_client_info": {
+          "package_name": "com.milewski.guardian_app_flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "374256029252-5iq1sl506gfau52d501rhmujiraoga0j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.milewski.guardian_app_flutter",
+            "certificate_hash": "f2e610cd1223a045c455993dd83ef695fdf0b4bf"
+          }
+        },
+        {
+          "client_id": "374256029252-rh3r0pv063cc29f54e3r5r7ramidrvf1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.milewski.guardian_app_flutter",
+            "certificate_hash": "a7320998d907b5523aab03764baa68a07ea8654f"
+          }
+        },
+        {
+          "client_id": "374256029252-k3sd08buibjaktso6brqkkfdr4oa0iot.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCSEbw64-hz0V3RrMYSY2tXG2BCUCw_5p4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "374256029252-k3sd08buibjaktso6brqkkfdr4oa0iot.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "374256029252-icd3l6377cgbi8ri6fsdmjfck6jte3rm.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.milewski.guardian"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
