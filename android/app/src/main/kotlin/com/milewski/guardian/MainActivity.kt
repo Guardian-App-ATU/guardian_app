@@ -1,4 +1,4 @@
-package com.milewski.guardian_app_flutter
+package com.milewski.guardian
 
 import io.flutter.embedding.android.FlutterActivity
 

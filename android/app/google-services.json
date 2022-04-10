@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:374256029252:android:d199221591d07eb85e7611",
         "android_client_info": {
-          "package_name": "com.milewski.guardian_app_flutter"
+          "package_name": "com.milewski.guardian"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "374256029252-5iq1sl506gfau52d501rhmujiraoga0j.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.milewski.guardian_app_flutter",
+            "package_name": "com.milewski.guardian",
             "certificate_hash": "f2e610cd1223a045c455993dd83ef695fdf0b4bf"
           }
         },
@@ -25,7 +25,7 @@
           "client_id": "374256029252-rh3r0pv063cc29f54e3r5r7ramidrvf1.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.milewski.guardian_app_flutter",
+            "package_name": "com.milewski.guardian",
             "certificate_hash": "a7320998d907b5523aab03764baa68a07ea8654f"
           }
         },

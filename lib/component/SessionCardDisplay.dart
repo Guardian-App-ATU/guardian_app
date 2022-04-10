@@ -65,9 +65,10 @@ class SessionCardDisplay extends StatelessWidget {
                   }
 
                   var data = snap.data!.data() as Map<String, dynamic>;
+                  var avatar = data["avatar"];
                   return CircleAvatar(
                     child: const Icon(Icons.error_outline),
-                    foregroundImage: Image.network(data["avatar"]).image,
+                    foregroundImage: avatar != null ? Image.network(avatar).image : null,
                   );
                 },
               ),
