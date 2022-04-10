@@ -18,6 +18,18 @@ class SessionCardDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final usersCollection = FirebaseFirestore.instance.collection("users");
+    var userRef = usersCollection.doc(user['userId']).get();
+
+    var lastUpdated = user["lastUpdate"];
+    if (lastUpdated == null) {
+      lastUpdated = "never updated";
+    } else {
+      var date = lastUpdated as Timestamp;
+      var difference =
+          Timestamp.now().toDate().difference(date.toDate()).inMinutes;
+
+      lastUpdated = "last updated ${difference}m ago";
+    }
 
     return Dismissible(
       key: key!,
@@ -55,7 +67,7 @@ class SessionCardDisplay extends StatelessWidget {
           elevation: 3,
           child: ListTile(
               leading: FutureBuilder<DocumentSnapshot>(
-                future: usersCollection.doc(user['userId']).get(),
+                future: userRef,
                 builder: (BuildContext context,
                     AsyncSnapshot<DocumentSnapshot> snap) {
                   if (snap.hasError || !snap.hasData) {
@@ -68,7 +80,8 @@ class SessionCardDisplay extends StatelessWidget {
                   var avatar = data["avatar"];
                   return CircleAvatar(
                     child: const Icon(Icons.error_outline),
-                    foregroundImage: avatar != null ? Image.network(avatar).image : null,
+                    foregroundImage:
+                        avatar != null ? Image.network(avatar).image : null,
                   );
                 },
               ),
@@ -78,7 +91,7 @@ class SessionCardDisplay extends StatelessWidget {
               trailing: ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 50),
                   child: Text(
-                    "last update ${0}m ago",
+                    lastUpdated,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 11, color: Theme.of(context).hintColor),
