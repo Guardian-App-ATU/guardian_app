@@ -49,17 +49,27 @@ class SessionCardDisplay extends StatelessWidget {
                           backgroundColor:
                               MaterialStateProperty.all<Color>(Colors.red))),
                   TextButton(
-                      onPressed: () => Navigator.of(buildcontext).pop(true),
+                      onPressed: () async {
+                        var httpsCallable = FirebaseFunctions.instance
+                            .httpsCallable("closeSession");
+
+                        showDialog(context: buildcontext, barrierDismissible: false, builder: (cntx) {
+                           return const Center(
+                             child: CircularProgressIndicator(),
+                           );
+                        });
+
+                        await httpsCallable
+                            .call(<String, dynamic>{"session": sessionId});
+
+                        // Pop twice, once to remove the loading indicator, second time to remove the modal
+                        Navigator.of(buildcontext).pop(true);
+                        Navigator.of(buildcontext).pop(true);
+                      },
                       child: const Text("I'm okay with that!"))
                 ],
               );
             });
-      },
-      onDismissed: (dir) async {
-        var httpsCallable =
-            FirebaseFunctions.instance.httpsCallable("closeSession");
-
-        await httpsCallable.call(<String, dynamic>{"session": sessionId});
       },
       child: InkWell(
         onTap: onTap,
