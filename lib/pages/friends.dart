@@ -60,6 +60,12 @@ class _FriendsPageState extends State<FriendsPage> {
                           return const Text("Error Occured!");
                         }
 
+                        if (snapshot.connectionState == ConnectionState.waiting){
+                          return const Card(
+                            child: LoadingIndicator(size: 32, borderWidth: 8),
+                          );
+                        }
+
                         if (!snapshot.hasData) {
                           return const Text("No data returned :(");
                         }
