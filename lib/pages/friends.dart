@@ -66,6 +66,8 @@ class _FriendsPageState extends State<FriendsPage> {
 
                         var data = snapshot.data!.data() as dynamic;
 
+                        data["id"] = usersFriends[index];
+
                         return FavouriteCard(favouriteData: data);
                       });
                 });
