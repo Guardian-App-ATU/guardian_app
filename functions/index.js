@@ -55,6 +55,7 @@ exports.updateLocation = functions.https.onCall(async (data, context) => {
     let batch = db.batch();
     documents.forEach((doc) => {
         batch.update(doc.ref, {
+            lastUpdate: firestore.FieldValue.serverTimestamp(),
             locations: firestore.FieldValue.arrayUnion(geoPoint)
         })
     })
