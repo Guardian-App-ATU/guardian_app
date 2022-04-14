@@ -1,11 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class AddFriendCard extends StatelessWidget {
+class AddFriendCard extends StatefulWidget {
   const AddFriendCard({
     Key? key,
     required this.isYou,
     required this.isFriend,
-    required this.user, required this.id,
+    required this.user,
+    required this.id,
   }) : super(key: key);
 
   final bool isYou;
@@ -14,23 +17,63 @@ class AddFriendCard extends StatelessWidget {
   final String id;
 
   @override
+  State<AddFriendCard> createState() => _AddFriendCardState();
+}
+
+class _AddFriendCardState extends State<AddFriendCard> {
+  late bool isFriend;
+
+  @override
+  void initState() {
+    isFriend = widget.isFriend;
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
         visualDensity: VisualDensity.comfortable,
-        trailing: !isYou
+        trailing: !widget.isYou
             ? InkWell(
-                onTap: () {},
+                onTap: () async {
+                  var dialogCtx;
+                  showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (dialogContext) {
+                        dialogCtx = dialogContext;
+
+                        return const Center(child: CircularProgressIndicator());
+                      });
+
+                  await FirebaseFirestore.instance
+                      .doc("users/${FirebaseAuth.instance.currentUser!.uid}")
+                      .update({
+                    "friends": isFriend
+                        ? FieldValue.arrayRemove([widget.id])
+                        : FieldValue.arrayUnion([widget.id])
+                  });
+
+                  await Future.delayed(const Duration(milliseconds: 125));
+
+                  setState(() {
+                    isFriend = !isFriend;
+                  });
+
+                  Navigator.of(dialogCtx).pop();
+                },
                 child: Icon(!isFriend ? Icons.person_add : Icons.person_remove,
                     size: 32))
             : null,
-        title: Text(user["displayName"]),
-        tileColor: isYou
+        title: Text(widget.user["displayName"]),
+        tileColor: widget.isYou
             ? Colors.yellow[50]
             : isFriend
                 ? Colors.green[50]
                 : null,
-        subtitle: isYou
+        subtitle: widget.isYou
             ? const Text("You")
             : isFriend
                 ? const Text("Is already your friend")
