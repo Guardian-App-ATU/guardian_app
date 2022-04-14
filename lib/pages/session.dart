@@ -1,5 +1,5 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:guardian_app_flutter/services/LocationService.dart';
@@ -81,15 +81,21 @@ class _SessionPageState extends State<SessionPage> {
                     ),
                   ),
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       const Text(
                         "Added People",
                         style: TextStyle(fontSize: 14),
                       ),
-                      IconButton(
-                          padding: EdgeInsets.zero,
-                          onPressed: () {},
-                          icon: const Icon(Icons.add))
+                      if (data["user"] ==
+                          FirebaseAuth.instance.currentUser!.uid)
+                        IconButton(
+                            alignment: Alignment.centerLeft,
+                            tooltip: "Add an user",
+                            iconSize: 24,
+                            padding: EdgeInsets.zero,
+                            onPressed: () {},
+                            icon: const Icon(Icons.add))
                     ],
                   ),
                   Wrap(
@@ -97,34 +103,63 @@ class _SessionPageState extends State<SessionPage> {
                     spacing: 6,
                     children: [
                       for (var id in <String>[...data["users"]])
-                        GestureDetector(
-                          onTap: () {},
-                          child: FutureBuilder<DocumentSnapshot>(
-                            future: FirebaseFirestore.instance
-                                .doc("users/${id}")
-                                .get(),
-                            builder: (context, snapshot) {
-                              if (!snapshot.hasData) {
-                                return CircleAvatar(
-                                  radius: 14,
-                                  child: snapshot.connectionState ==
-                                          ConnectionState.waiting
-                                      ? const CircularProgressIndicator()
-                                      : const Icon(Icons.error_outline),
-                                );
-                              }
-
-                              dynamic data = snapshot.data!.data();
-                              String? url = data!["avatar"];
-
+                        FutureBuilder<DocumentSnapshot>(
+                          future: FirebaseFirestore.instance
+                              .doc("users/${id}")
+                              .get(),
+                          builder: (context, snapshot) {
+                            if (!snapshot.hasData) {
                               return CircleAvatar(
+                                radius: 14,
+                                child: snapshot.connectionState ==
+                                        ConnectionState.waiting
+                                    ? const CircularProgressIndicator()
+                                    : const Icon(Icons.error_outline),
+                              );
+                            }
+
+                            dynamic data = snapshot.data!.data();
+                            String? url = data!["avatar"];
+
+                            return PopupMenuButton<bool>(
+                              itemBuilder: (context) => [
+                                PopupMenuItem(
+                                    enabled: false,
+                                    child: Text(data["displayName"])),
+                                const PopupMenuDivider(),
+                                const PopupMenuItem(
+                                    child: Text("Remove"), value: true)
+                              ],
+                              onSelected: (value) async {
+                                if (value == false) {
+                                  return;
+                                }
+
+                                var dialContext;
+                                showDialog(
+                                    context: context,
+                                    builder: (dialogContext) {
+                                      dialContext = dialogContext;
+                                      return const Center(
+                                        child: CircularProgressIndicator(),
+                                      );
+                                    });
+
+                                FirebaseFirestore.instance
+                                    .doc("sessions/${widget.sessionId}")
+                                    .update({
+                                  "users": FieldValue.arrayRemove([id])
+                                }).whenComplete(
+                                        () => Navigator.of(dialContext).pop());
+                              },
+                              child: CircleAvatar(
                                 radius: 14,
                                 child: url != null
                                     ? Image.network(url)
                                     : const Icon(Icons.person),
-                              );
-                            },
-                          ),
+                              ),
+                            );
+                          },
                         )
                     ],
                   )
