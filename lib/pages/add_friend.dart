@@ -91,15 +91,15 @@ class _AddFriendState extends State<AddFriend> {
                       shrinkWrap: true,
                       itemCount: users.length,
                       itemBuilder: (BuildContext context, int index) {
-                        bool isFriend =
-                            friendsArray.contains(users[index].reference.id);
-
-                        bool isYou = users[index].reference.id ==
-                            FirebaseAuth.instance.currentUser!.uid;
-
                         var user = users[index];
 
-                        return AddFriendCard(isYou: isYou, isFriend: isFriend, user: user);
+                        bool isFriend =
+                            friendsArray.contains(user.reference.id);
+
+                        bool isYou = user.reference.id ==
+                            FirebaseAuth.instance.currentUser!.uid;
+
+                        return AddFriendCard(isYou: isYou, isFriend: isFriend, user: user, id: user.reference.id,);
                       },
                     );
                   });

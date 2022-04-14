@@ -5,12 +5,13 @@ class AddFriendCard extends StatelessWidget {
     Key? key,
     required this.isYou,
     required this.isFriend,
-    required this.user,
+    required this.user, required this.id,
   }) : super(key: key);
 
   final bool isYou;
   final bool isFriend;
   final dynamic user;
+  final String id;
 
   @override
   Widget build(BuildContext context) {
