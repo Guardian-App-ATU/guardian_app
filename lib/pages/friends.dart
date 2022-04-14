@@ -21,9 +21,10 @@ class _FriendsPageState extends State<FriendsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: const Icon(Icons.add)
-      ),
+          onPressed: () {
+            Navigator.pushNamed(context, "/friends/add");
+          },
+          child: const Icon(Icons.add)),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: StreamBuilder(
@@ -60,7 +61,8 @@ class _FriendsPageState extends State<FriendsPage> {
                           return const Text("Error Occured!");
                         }
 
-                        if (snapshot.connectionState == ConnectionState.waiting){
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
                           return const Card(
                             child: LoadingIndicator(size: 32, borderWidth: 8),
                           );
@@ -83,5 +85,3 @@ class _FriendsPageState extends State<FriendsPage> {
     );
   }
 }
-
-

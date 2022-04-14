@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:guardian_app_flutter/pages/add_friend.dart';
 import 'package:guardian_app_flutter/pages/friends.dart';
 import 'package:guardian_app_flutter/pages/login.dart';
 import 'package:guardian_app_flutter/pages/main_page.dart';
@@ -13,7 +14,6 @@ import 'package:guardian_app_flutter/pages/profile.dart';
 import 'package:guardian_app_flutter/pages/session.dart';
 import 'package:guardian_app_flutter/services/AuthenticationService.dart';
 import 'package:guardian_app_flutter/services/LocationService.dart';
-import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 
 import 'firebase_options.dart';
@@ -122,12 +122,16 @@ class _GuardianAppPageState extends State<GuardianAppPage> {
         onGenerateRoute: (RouteSettings settings) {
           WidgetBuilder builder;
 
+          log("Navigating to ${settings.name}");
           switch (settings.name) {
             case "/profile":
               builder = (BuildContext context) => const ProfilePage();
               break;
             case "/friends":
               builder = (BuildContext context) => const FriendsPage();
+              break;
+            case "/friends/add":
+              builder = (BuildContext context) => const AddFriend();
               break;
             case "/":
             default:
