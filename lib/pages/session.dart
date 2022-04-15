@@ -43,8 +43,8 @@ class _SessionPageState extends State<SessionPage> {
               return const Center(child: Text("No data retrieved"));
             }
 
-            var data = snapshot.data!.data() as dynamic;
-            List<dynamic> locationUpdates = data["locations"] ?? [];
+            var sessionData = snapshot.data!.data() as dynamic;
+            List<dynamic> locationUpdates = sessionData["locations"] ?? [];
 
             List<LatLng> asLatLng = <LatLng>[];
 
@@ -52,7 +52,7 @@ class _SessionPageState extends State<SessionPage> {
               asLatLng.add(LatLng(element.latitude, element.longitude));
             }
 
-            Timestamp? lastUpdateDate = data["lastUpdate"];
+            Timestamp? lastUpdateDate = sessionData["lastUpdate"];
 
             return SlidingUpPanel(
               minHeight: 72,
@@ -87,22 +87,47 @@ class _SessionPageState extends State<SessionPage> {
                         "Added People",
                         style: TextStyle(fontSize: 14),
                       ),
-                      if (data["user"] ==
+                      if (sessionData["userId"] ==
                           FirebaseAuth.instance.currentUser!.uid)
                         IconButton(
                             alignment: Alignment.centerLeft,
                             tooltip: "Add an user",
                             iconSize: 24,
                             padding: EdgeInsets.zero,
-                            onPressed: () {},
+                            onPressed: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (ctx) {
+                                    return FutureBuilder<DocumentSnapshot>(
+                                      future: FirebaseFirestore.instance
+                                          .doc(
+                                              "users/${FirebaseAuth.instance.currentUser!.uid}")
+                                          .get(),
+                                      builder: (dialogContext, snapshot) {
+                                        if (!snapshot.hasData ||
+                                            snapshot.hasError) {
+                                          return const Text(
+                                              "Sorry, an error has occurred");
+                                        }
+
+                                        dynamic data = snapshot.data!.data();
+                                        // ignore: prefer_const_constructors
+                                        return FriendsPopup(
+                                            data: data,
+                                            sessionId: widget.sessionId);
+                                      },
+                                    );
+                                  });
+                            },
                             icon: const Icon(Icons.add))
                     ],
                   ),
+                  const SizedBox(height: 6),
                   Wrap(
                     direction: Axis.horizontal,
                     spacing: 6,
                     children: [
-                      for (var id in <String>[...data["users"]])
+                      for (var id in <String>[...sessionData["users"]])
                         FutureBuilder<DocumentSnapshot>(
                           future: FirebaseFirestore.instance
                               .doc("users/${id}")
@@ -193,6 +218,70 @@ class _SessionPageState extends State<SessionPage> {
               ),
             );
           }),
+    );
+  }
+}
+
+class FriendsPopup extends StatelessWidget {
+  const FriendsPopup({
+    Key? key,
+    required this.data,
+    required this.sessionId,
+  }) : super(key: key);
+
+  final data;
+  final String sessionId;
+
+  @override
+  Widget build(BuildContext context) {
+    return SimpleDialog(
+      title: const Text("Add Your friends"),
+      contentPadding: const EdgeInsets.all(8),
+      children: [
+        Container(
+          height: 200,
+          width: double.maxFinite,
+          child: ListView.builder(
+            itemBuilder: (context, index) {
+              return FutureBuilder<DocumentSnapshot>(
+                future: FirebaseFirestore.instance
+                    .doc("users/${data["friends"][index]}")
+                    .get(),
+                builder: (futureContext, snapshot) {
+                  if (!snapshot.hasData) {
+                    return CircularProgressIndicator();
+                  }
+
+                  dynamic userData = snapshot.data!.data();
+
+                  return Card(
+                    child: snapshot.connectionState == ConnectionState.waiting
+                        ? const Center(child: CircularProgressIndicator())
+                        : ListTile(
+                            title: Text(userData["displayName"]),
+                            onTap: () {
+                              FirebaseFirestore.instance
+                                  .doc("sessions/$sessionId")
+                                  .update({
+                                "users": FieldValue.arrayUnion(
+                                    [snapshot.data!.id])
+                              });
+                            },
+                          ),
+                  );
+                },
+              );
+            },
+            itemCount: data["friends"].length,
+            shrinkWrap: true,
+          ),
+        ),
+        ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text("Close"))
+      ],
     );
   }
 }
