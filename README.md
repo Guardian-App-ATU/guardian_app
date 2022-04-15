@@ -1,4 +1,7 @@
 [![Build](https://github.com/Guardian-App-ATU/guardian_app/actions/workflows/flutter.yml/badge.svg)](https://github.com/Guardian-App-ATU/guardian_app/actions/workflows/flutter.yml)
+![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/Guardian-App-ATU/guardian_app)
+![GitHub issues](https://img.shields.io/github/issues-raw/Guardian-App-ATU/guardian_app)
+![GitHub top language](https://img.shields.io/github/languages/top/Guardian-App-ATU/guardian_app)
 
 # Guardian App - A Flutter Project (STUDENT ID: G00376658)
 This project has been created as part of my ATU (Atlantic Technological University) dissertation project, the dissertation document is not publicly available.
@@ -18,3 +21,8 @@ The app was modelled after the popular Life360 mobile application - I wanted to 
 6. You should now be able to build this project yourself, follow [this](https://docs.flutter.dev/deployment/android).
 
 Please mind, that there are several third-party APIs integrated into this project. As such, Google Login/Maps will not actually work due to the API key being limited to signed applications. You'll have to create your own API key and replace it in the code-base manually.
+
+## Demo video
+This is me walking through the emulated build of this demo and explaining what's happening on the screen. The [video](http://www.youtube.com/watch?v=vAlgoRx0vEM) is around ten minutes long, enjoy.
+
+[![Dissertation Video](http://img.youtube.com/vi/vAlgoRx0vEM/0.jpg)](http://www.youtube.com/watch?v=vAlgoRx0vEM)
