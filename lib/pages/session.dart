@@ -249,7 +249,7 @@ class FriendsPopup extends StatelessWidget {
                     .get(),
                 builder: (futureContext, snapshot) {
                   if (!snapshot.hasData) {
-                    return CircularProgressIndicator();
+                    return const Center(child: CircularProgressIndicator());
                   }
 
                   dynamic userData = snapshot.data!.data();
@@ -259,13 +259,15 @@ class FriendsPopup extends StatelessWidget {
                         ? const Center(child: CircularProgressIndicator())
                         : ListTile(
                             title: Text(userData["displayName"]),
-                            onTap: () {
-                              FirebaseFirestore.instance
+                            onTap: () async {
+                              await FirebaseFirestore.instance
                                   .doc("sessions/$sessionId")
                                   .update({
                                 "users": FieldValue.arrayUnion(
                                     [snapshot.data!.id])
                               });
+
+                              Navigator.of(futureContext).pop();
                             },
                           ),
                   );
