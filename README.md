@@ -1,6 +1,6 @@
 [![Build](https://github.com/Guardian-App-ATU/guardian_app/actions/workflows/flutter.yml/badge.svg)](https://github.com/Guardian-App-ATU/guardian_app/actions/workflows/flutter.yml)
-![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/Guardian-App-ATU/guardian_app)
-![GitHub issues](https://img.shields.io/github/issues-raw/Guardian-App-ATU/guardian_app)
+[![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/Guardian-App-ATU/guardian_app)](https://github.com/Guardian-App-ATU/guardian_app/issues?q=is%3Aissue+is%3Aclosed)
+[![GitHub issues](https://img.shields.io/github/issues-raw/Guardian-App-ATU/guardian_app)](https://github.com/Guardian-App-ATU/guardian_app/issues)
 ![GitHub top language](https://img.shields.io/github/languages/top/Guardian-App-ATU/guardian_app)
 
 # Guardian App - A Flutter Project (STUDENT ID: G00376658)
